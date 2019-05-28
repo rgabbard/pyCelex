@@ -139,23 +139,23 @@ class WordForm(object):
 
 def buildWordFormDict(celexPath, verbose=False):
     if verbose:
-        print >> sys.stderr, "Building English wordform dictionary from", os.sep.join([celexPath,
-            'english'])
-        print >> sys.stderr, "Reading lemmas...",
+        print("Building English wordform dictionary from", os.sep.join([celexPath,
+            'english']), file=sys.stderr)
+        print("Reading lemmas...", end=' ', file=sys.stderr)
         sys.stdout.flush()
 
     lemmas = loadLemmas(celexPath)
 
     if verbose:
-        print >> sys.stderr, "(%d lemmas)" % len(lemmas)
-        print >> sys.stderr, "Reading morphology...",
+        print("(%d lemmas)" % len(lemmas), file=sys.stderr)
+        print("Reading morphology...", end=' ', file=sys.stderr)
         sys.stdout.flush()
 
     emw = loadEMW(celexPath)
 
     if verbose:
-        print >> sys.stderr, "(%d wordforms)" % len(emw)
-        print >> sys.stderr, "Reading phonology...",
+        print("(%d wordforms)" % len(emw), file=sys.stderr)
+        print("Reading phonology...", end=' ', file=sys.stderr)
         sys.stdout.flush()
 
     f = open(os.sep.join([celexPath, 'english', 'epw', 'epw.cd']), 'r')
@@ -197,12 +197,12 @@ def buildWordFormDict(celexPath, verbose=False):
             if ortho != ortho.lower():
                 d[ortho.lower()].append(wf)
                             
-    except csv.Error, e:
-        print >> sys.stderr, 'CSV error in %s at line %d' % (fileName,lineno)
+    except csv.Error as e:
+        print('CSV error in %s at line %d' % (fileName,lineno), file=sys.stderr)
         raise e
 
     if verbose:
-        print >> sys.stderr, "(%d orthographies)" % len(d)
+        print("(%d orthographies)" % len(d), file=sys.stderr)
     return d
 
 def boolYN(s):
@@ -277,8 +277,8 @@ def loadLemmas(celexPath):
             lineno += 1
             lemmas.append(Lemma(row))
 
-    except csv.Error, e:
-        print 'CSV error in %s at line %d' % (fileName,lineno)
+    except csv.Error as e:
+        print('CSV error in %s at line %d' % (fileName,lineno))
         raise e
 
     return lemmas
@@ -297,8 +297,8 @@ def loadEMW(celexPath):
             id, orhto, cob, idLemma, flectType, transInfl = row
             emw[int(id)] = (flectType, transInfl)
 
-    except csv.Error, e:
-        print 'CSV error in %s at line %d' % (fileName,lineno)
+    except csv.Error as e:
+        print('CSV error in %s at line %d' % (fileName,lineno))
         raise e
 
     return emw
